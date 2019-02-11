@@ -19,7 +19,7 @@ var destination = "";
 var firstTrainTime = "HH:MM:SS?";
 var frequency = "MM";
 
-// Whenever a user clicks the submit button
+// When user clicks the submit button
 $("#submit").on("click", function(event) {
     // Prevent form from submitting
     event.preventDefault();
@@ -43,30 +43,38 @@ $("#submit").on("click", function(event) {
       
       //Do I need to make an array or object (newTrainSchedule) to hold origin, destination, firstTrainTime and frequency for each train schedule?
 
-      //Append (appendChild) newTrainSchedule to jwoodExpressSchedule (create a well?).
-
     // FirstTrainTime (pushed back 1 year to make sure it comes before current time)
-    var firstTimeConverted = moment(firstTrainTime, "HH:mm").subtract(1, "years");
-    console.log(firstTimeConverted);
+    var firstTrainTimeConverted = moment(firstTrainTime, "HH:mm").subtract(1, "years");
 
     // Current Time
     var currentTime = moment();
     console.log("CURRENT TIME: " + moment(currentTime).format("hh:mm"));
 
     // Difference between the times
-    var diffTime = moment().diff(moment(firstTimeConverted), "minutes");
+    var diffTime = moment().diff(moment(firstTrainTimeConverted), "minutes");
     console.log("DIFFERENCE IN TIME: " + diffTime);
 
     // Time apart (remainder)
-    var tRemainder = diffTime % frequency;
-    console.log(tRemainder);
+    var Remainder = diffTime % frequency;
+    console.log(Remainder);
 
     // Minutes Until Train
-    var tMinutesTillTrain = frequency - tRemainder;
-    console.log("MINUTES TILL TRAIN: " + tMinutesTillTrain);
+    var MinutesTillTrain = frequency - Remainder;
+    console.log("MINUTES TILL TRAIN: " + MinutesTillTrain);
 
     // Next Train
-    var nextTrain = moment().add(tMinutesTillTrain, "minutes");
+    var nextTrain = moment().add(MinutesTillTrain, "minutes").format("hh:mm");
     console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
   
+    //Append (appendChild) newTrainSchedule to jwoodExpressSchedule (create a well?).
+      //This does not
+      $("#well").append(
+        `<tr>
+          <td>${origin}</td>
+          <td>${destination}</td>
+          <td>${frequency} minutes</td>
+          <td>${nextTrain}</td>
+          <td>${MinutesTillTrain}</td>
+        </tr>`
+      )
   });
